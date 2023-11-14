@@ -38,7 +38,7 @@ const posts = [
         media: "https://unsplash.it/600/400?image=24",
         author: {
             name: "Luca Formicola",
-            image: "https://unsplash.it/300/300?image=28"
+            image: null
         },
         likes: 56,
         created: "2021-04-03"
@@ -57,6 +57,7 @@ const posts = [
 ];
 const container = document.getElementById('container');
 const currentDate = new Date();
+
 
 posts.forEach((post) => postGenerator(post));
 
@@ -83,6 +84,20 @@ likeButtons.forEach((likeButton) => {
     })
 })
 
+/**
+ * Generates a function comment for the given function body.
+ *
+ * @param {object} post - The post object.
+ * @param {string} post.created - The creation date of the post in the format 'YYYY-MM-DD'.
+ * @param {object} post.author - The author object.
+ * @param {string} post.author.name - The name of the author.
+ * @param {string} post.author.image - The image URL of the author.
+ * @param {string} post.content - The content of the post.
+ * @param {string} post.media - The media URL of the post.
+ * @param {number} post.id - The ID of the post.
+ * @param {number} post.likes - The number of likes for the post.
+ * @return {void}
+ */
 function postGenerator(post) {
     const date = post.created.split('-');
     container.innerHTML += `
@@ -117,12 +132,25 @@ function postGenerator(post) {
             </div>            
         </div>
     `
+
+    // Set default profile picture
+    if (post.author.image === null) {
+        const randomColor = Math.floor(Math.random()*16777215).toString(16).padStart(6, 0);
+        const icon = document.querySelectorAll('.post-meta__icon')[post.id-1];
+        icon.innerHTML = `<div id="profile-pic__default-${post.id}" class="profile-pic">${post.author.name.split(' ')[0][0]}${post.author.name.split(' ')[1][0]}</div>`;
+        const profilePic = document.querySelector(`#profile-pic__default-${post.id}`);
+        profilePic.style.backgroundColor = `#${randomColor}`;
+        profilePic.style.borderRadius = '50%';
+        profilePic.style.width = '60px';
+        profilePic.style.height = '60px';
+        profilePic.style.display = 'flex';
+        profilePic.style.alignItems = 'center';
+        profilePic.style.justifyContent = 'center';
+        profilePic.style.color = 'white';
+        profilePic.style.fontWeight = 'bold';
+        profilePic.style.fontSize = '24px';
+    }
 }
-
-// console.log(timeSince(3, 11, 2023));
-// console.log(timeSince(3, 9, 2023)); 
-// console.log(timeSince(3, 9, 2020)); 
-
 
 /**
  * Calculates the time elapsed since a specific date.
@@ -143,6 +171,6 @@ function timeSince(day, month, year) {
     } else if (daySince < 365) {
         return `${Math.floor(daySince/30)} mesi fa`;
     } else {
-        return `${Math.floor(daySince/365)} anni fa`;
+        return Math.floor(daySince/365) == 1 ? `${Math.floor(daySince/365)} anno fa` : `${Math.floor(daySince/365)} anni fa`;
     }
 }
