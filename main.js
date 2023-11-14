@@ -58,9 +58,30 @@ const posts = [
 const container = document.getElementById('container');
 const currentDate = new Date();
 
-for (let i = 0; i < posts.length; i++) {
-    postGenerator(posts[i]);
-}
+posts.forEach((post) => postGenerator(post));
+
+let likeButtons = document.querySelectorAll('.js-like-button');
+let likeCounters = document.querySelectorAll('.js-likes-counter');
+
+likeButtons.forEach((likeButton) => {
+    likeButton.addEventListener('click', () => {
+        if (likeButton.classList.contains('like-button--liked')) {
+            likeButton.classList.remove('like-button--liked');
+            likeCounters.forEach((likeCounter) => {
+                if (likeCounter.id[likeCounter.id.length - 1] == likeButton.getAttribute('data-postid')) {
+                    likeCounter.innerHTML = parseInt(likeCounter.innerHTML) - 1;
+                }
+            })
+        } else {
+            likeButton.classList.add('like-button--liked');
+            likeCounters.forEach((likeCounter) => {
+                if (likeCounter.id[likeCounter.id.length - 1] == likeButton.getAttribute('data-postid')) {
+                    likeCounter.innerHTML = parseInt(likeCounter.innerHTML) + 1;
+                }
+            })
+        }
+    })
+})
 
 function postGenerator(post) {
     const date = post.created.split('-');
@@ -84,13 +105,13 @@ function postGenerator(post) {
             <div class="post__footer">
                 <div class="likes js-likes">
                     <div class="likes__cta">
-                        <a class="like-button  js-like-button" href="#" data-postid="${post.id}">
+                        <a class="like-button  js-like-button" data-postid="${post.id}">
                             <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                             <span class="like-button__label">Mi Piace</span>
                         </a>
                     </div>
                     <div class="likes__counter">
-                        Piace a <b id="like-counter-1" class="js-likes-counter">${post.likes}</b> persone
+                        Piace a <b id="like-counter-${post.id}" class="js-likes-counter">${post.likes}</b> persone
                     </div>
                 </div> 
             </div>            
