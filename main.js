@@ -19,7 +19,7 @@ const posts = [
             image: "https://unsplash.it/300/300?image=10"
         },
         likes: 120,
-        created: "2023-09-03"
+        created: "2023-10-06"
     },
     {
         id: 3,
@@ -30,7 +30,7 @@ const posts = [
             image: "https://unsplash.it/300/300?image=20"
         },
         likes: 78,
-        created: "2022-05-15"
+        created: "2023-05-15"
     },
     {
         id: 4,
@@ -41,7 +41,7 @@ const posts = [
             image: null
         },
         likes: 56,
-        created: "2021-04-03"
+        created: "2022-04-03"
     },
     {
         id: 5,
@@ -171,9 +171,9 @@ function timeSince(day, month, year) {
     (currentDate.getDate() - day);
 
     if (daySince < 30) {
-        return `${daySince} giorni fa`;
+        return daySince == 1 ? `${daySince} giorno fa` : `${daySince} giorni fa`;
     } else if (daySince < 365) {
-        return `${Math.floor(daySince/30)} mesi fa`;
+        return Math.floor(daySince/30) == 1 ? `${Math.floor(daySince/30)} mese fa` : `${Math.floor(daySince/30)} mesi fa`;
     } else {
         return Math.floor(daySince/365) == 1 ? `${Math.floor(daySince/365)} anno fa` : `${Math.floor(daySince/365)} anni fa`;
     }
