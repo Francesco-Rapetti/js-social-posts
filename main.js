@@ -57,6 +57,7 @@ const posts = [
 ];
 const container = document.getElementById('container');
 const currentDate = new Date();
+const postLiked = [];
 
 
 posts.forEach((post) => postGenerator(post));
@@ -73,6 +74,7 @@ likeButtons.forEach((likeButton) => {
                     likeCounter.innerHTML = parseInt(likeCounter.innerHTML) - 1;
                 }
             })
+            postLiked.splice(postLiked.indexOf(likeButton.getAttribute('data-postid')), 1);
         } else {
             likeButton.classList.add('like-button--liked');
             likeCounters.forEach((likeCounter) => {
@@ -80,7 +82,9 @@ likeButtons.forEach((likeButton) => {
                     likeCounter.innerHTML = parseInt(likeCounter.innerHTML) + 1;
                 }
             })
+            postLiked.push(likeButton.getAttribute('data-postid'));
         }
+        console.log(postLiked)
     })
 })
 
